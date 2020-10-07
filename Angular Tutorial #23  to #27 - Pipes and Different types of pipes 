@@ -1,0 +1,160 @@
+Angular Tutorial #23 - Pipes
+
+- Pipes are used to transform the data
+- Pipes will take data input and convert/transform into a desired format 
+- Pipes are used using pipe operator '|'
+- we can apply pipes to any view/template and to any data inputs.
+
+* types
+
+- Built in Pipes    
+    - Lowercase
+    - UpperCase
+    - Currency
+    - Date etc.
+- Parameterized Pipes 
+    - we can pass one or more parameter to pipes
+- Chaining Pipes    
+    - We can connect multiple Pipes to a input
+- Custom Pipes 
+    - we can create our own custom Pipes for various Data Formatting
+
+--------------------------------------------------------------------------------------------------------------------    
+
+Angular Tutorial #24 - Built in Pipes
+
+- built in Pipes 
+    - Lowercase
+    - UpperCase
+    - Percent
+    - Currency
+    - Date
+    - JSON
+- Example Code : 
+    user = {
+            userid : 20,
+            firstName : 'Aniket',
+            lastName : 'Gajjar',
+            dob : '02/03/1998'
+    }
+
+    <div> 
+        {{user.firstName | Lowercase}}, {{user.firstName | UpperCase}}
+    </div>
+
+    <div>
+        {{user.dob | date}}
+    </div>
+
+    output  : 
+        aniket, Gajjar 
+        mar 02 1998
+--------------------------------------------------------------------------------------------------------------------    
+    
+Angular Tutorial #25 - Parameterized Pipes
+
+- we can pass one or more parameters to Pipes
+- we can pass parameters using the colon symbol(:)
+    - currency 
+        - currency symbol
+        - currency Code
+        - currency Digit variation
+    - Date   
+        - 'short' : equivalent to 'M/D/yy h:mm a'(6/15/15 9:03 AM)
+        - 'medium' : equivalent to 'MMM d y h:mm:ss a'(jun 15,2015 9:03:01 AM)
+        - 'long' : equivalent to 'MMMM d y h:mm:ss a z'(jun 15,2015 at 9:03:01 AM GMT+1)
+        - 'shortDate' : equivalent to 'M/d/yy'(6/15/15)
+        - 'mediumDate' : equivalent to 'MMM d,y(Jun 15,2015)
+        - 'longDate' : equivalent to 'MMMM d,y(June 15,2015)
+        - 'fullDate' : equivalent to 'EEEE, MMMM d, y'(Monday, June 15, 2015)
+        - 'shortTime' : equivalent to 'h:mm a'(9:03 AM)
+        - 'mediumTime' : equivalent to 'h:mm:ss a'(9:01:01 AM)
+        - 'longTime' : equivalent to 'h:mm:ss a z'(9:01:01 AM GMT+1)
+        - 'fullTime' : equivalent to 'h:mm:ss a zzzz(9:03:01 AM GMT+01:00)
+
+- Example Code : 
+    user = {
+            userid : 20,
+            firstName : 'Aniket',
+            lastName : 'Gajjar',
+            dob : '02/03/1998',
+            salary : 1500.56
+    }
+
+    <div>
+        {{user.dob | date : 'longDate'}},  {{user.dob | date : 'MMMM dd yyyy'}}
+    </div>
+
+    <div>
+        {{salary | currency : 'USD'}}, {{salary | currency : 'USD' : 'code'}},{{salary | currency : 'USD':'USD':'4.0-1'}}
+    </div>                                                                                    4 digit before decimal and 0 to 1 after decimal  
+
+    march 02, 1998, march 02, 1998
+    $1500.56, USD1500.56, $1500.6
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------    
+
+Angular Tutorial #26 - Chaining Pipes
+
+- Using multiple pipes on a data input is called as Chaining Pipes
+- we can pass one or more pipes to a data input
+- Example
+    - {{dob | date : 'MMMM'| uppercase}} // date = "02/03/1998
+
+    output : MARCH
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------    
+
+Angular Tutorial #27 - Custom Pipes
+
+- we can create custom pipes in our Angular application.
+- we can generate it using cli
+    - ng generate pipe highlight
+- Pipes need to be added to the module - Thankfully cli does this when we auto generate
+- We need to import the Pipe and PipeTransform from @angular/core
+- Pipes are declared with decorator @pipe and provide the selector name
+- Example
+
+    @Pipe({
+        name: 'hoverEffect'
+    })
+    export class HoverEffectPipe implements PipeTransform {
+
+        transform(value: string, city: string): any {
+                return 'City is  : '+ city;
+        }
+
+    }
+
+
+    user = {
+        firstName : 'Aniket Gajjar'
+        city : 'New York'
+        cityCode : 'Ny'
+    }
+
+    <div>
+        {{user.city | highlight}}
+    </div>    
+
+    City is New York
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

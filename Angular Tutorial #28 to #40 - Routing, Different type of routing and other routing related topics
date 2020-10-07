@@ -1,0 +1,280 @@
+Angular Tutorial #28 - Routing
+
+- Routing is a mechanism used by Angular framework to manage the paths and routes of our angular application.
+- Routing strategy helps in navigation between various views in our angular application.
+- Angular framework comes with 'Router' Module which has evrything we need to design, develop and implement routes and navigation links.
+- Router is a singlton - which means there is only one instance of the router in our angular application.
+- Angular router is the official Router Module which is written and maintained by core Angular team.
+- The router Module is found in the package @angular/router.
+- We need to setup Router array 
+- Every time a request is made, the router will search in the list of array and find most relevant match,
+- Router has states - which helps us get important information about the current state and data related to routes.
+- All batteries included for Router.
+- we can handle various types of routes in Angular application
+    - Routes for components
+    - Getting Query Params from routes
+    - Getting the URL segments
+    - Loading child routes for a Module
+    - Lazy Loading
+    - Handling wild cards routes
+    - Handling default routes
+    - Handling 404 routes
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Angular Tutorial #29 - Routing Strategy
+
+- Before we begin implementing our applications, its important to plan, architect the routes
+- How, what and where are the questions to be asked in this stage
+- This is called as "Routing Strategy"
+- This is extremely important as it will affect the entire application flow and navigation
+    - /products // PathLocationStrategy
+    - /products/10 // PathLocationStrategy
+    - /products/10/details // PathLocationStrategy
+    - /products?search=param1 // PathLocationStrategy
+    - /#/products // HashLocationStrategy
+    - /#/products/10 // HashLocationStrategy
+- We need to add this in Providers of our Module    
+    - {provide: LocationStrategy, useClass: HashLocationStrategy}
+- Angular provides 2 types of routing strategy we can use :
+    - PathLocationStrategy
+    - HashLocationStrategy
+- By default- Angular makes use of the PathLocationStrategy
+- With HashLocationStrategy - we can see the # in the URL
+- In app.Module class we can set strategy using providers array.
+- Example
+    - providers : [{provide: LocationStrategy, useClass: HashLocationStrategy}]
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Angular Tutorial #30 - Base HREF
+
+- Every Angular application has MANDATORY base href
+- Angular application is a SPA( Single Page Architecture) which means there will be only one HTML file
+- The default base href is set to '/' the root folder
+- The Base HREF is present in index.html file for all Angular applications.
+- ng build - when deploying it will always assume
+    - you are deploying to root folder
+        - Example : http://www.exampleWebSite.com - base href = '/' - root folder 
+                    http://www.exampleWebSite.com/demos - base href = '/demos'
+- how do we configuring it ?
+    - ng build --base-href='/demos/'
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Angular Tutorial #31 - Routing Module
+
+- Routing Module is a placeholder for configuring all routes and navigations in one Module
+- best practice is to have all routes configured in one place 
+- Easy to maintain and debug 
+- We can generate the app routing module using CLI 
+    - ng generate Module app-routing --flat --module=app
+- Steps to create routing class 
+    - We need to import modules from the package    
+        - import { Routes, RouterModule } from '@angular/router';
+    - We need to configure route path array in the file
+        - const routes : Routes = [];
+    - Then we need to define our module
+        - @NgModule({
+            imports: [RouterModule.forRoot(routes)],
+            exports: [RouterModule]
+        })
+    - We need to export the module
+        - export class AppRoutingModule{}
+    - import the Module in the AppModule file
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Angular Tutorial #32 - Router Outlet
+
+- Every Angular application must have router Outlet
+- We can have more than 1 Outlet in our application
+    - we can specify named router outlets in our application
+- Router outlet lets us define lets us define where the output should be displayed
+- Router outlet can be specified at AppModule or in Individual modules
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Angular Tutorial #33 - Configuring Routes
+
+- We can configure routes to redirect route for various paths
+    - path
+    - components
+    - redirectTo
+    - children
+- Example : 
+    - routes : Routes = {
+        {path : 'products', component : ProductsComponent },
+        {path : 'products-view', component : ProductsViewComponent },
+        {path : 'products-edit', component : ProductsEditComponent },
+        {path : 'products/:id', component : ProductIdComponent },
+
+    }
+
+    localhost:4200/products - ProductsComponent
+    localhost:4200/products-view - ProductsViewComponent
+    localhost:4200/products-edit - ProductsEditComponent
+    
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Angular Tutorial #34 - Parameterized Routes
+
+- We can configure and send parameters to our routes
+- We need to configure the route and mention that the value is dynamic
+    - {path: 'product/:id, component:'components-name'}
+    - for e.g 
+        - product/10
+        - product/20
+- We can read the values in the component class and process the parameters
+- we can read that dynamic value using activatedRoute
+    - pramsQuery : '';
+    - constructor(private activatedRoute :  ActivatedRoute){
+        this.activatedRoute.params. subscribe(data => {
+            this.params.Query= data.id;
+        })
+    }
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Angular Tutorial #35 - Query Params in Routes
+
+- We can easily configure query parameters in the URL routes
+    - search?id=12
+- Generally used with get http calls
+- visible to end users -
+    - make sure No sensitive information is captured via query params
+    - no login, no password, no other sensitive information etc.
+- Example : 
+    - {path : 'search', component:SearchComponent}
+    - params : [];
+    - constructor(private activatedRoute :  ActivatedRoute){
+        this.activatedRoute.queryParams. subscribe(data => {
+            this.params = data;
+            console.log(this.params.id);
+        })
+    }
+    - localhost:4200/search?id=10
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Angular Tutorial #36 - Redirecting Routes
+
+- When we want to a route to be redirected to another router - we will implement the redirectTo in our route array
+- The syntax to define the same is given below
+    - {path :'', redirectTo:'home', pathMatch:'full'}
+- The empty path indicate that it's the default route of the application
+- The empty path also requires us to mention that pathMatch should be "full"
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Angular Tutorial #37 - Redirecting Routes
+
+- Wild card intercepts any invalid URLs in our application
+- When No Matching routes are found in the routes array, the router does not know where to go and hence results in console errors.
+- Wild card routes are defined in the route array using 
+    - {path:'**'}
+- Usually a component named PageNotFound is mapped as best practice
+- Example : 
+    {path:'**', component:PageNotFoundComponent}
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Angular Tutorial #38 - Child  Routes
+
+- We can configure child routes to create more meaningful URL segments
+- The child routes array will follow syntax and array concept as similar to defining the routes array
+- syntax for defining child routes  
+    { path:'products',
+            children:[
+                {path:'product-child', component:ProductsViewComponent}
+            ]
+        }
+    - localhost:4200/products/product-child   
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Angular Tutorial #39 - Lazy Loading
+
+- by default, NgModules are eagerly loaded , which means that as soon as the app loads , so do all the NgModules , whether or not they are immediately necessary.
+    - it makes our application very heavy 
+    - bundle size increases drastically
+    - It will load modules you dont at that time 
+- For large apps with lots of routes, consider lazy loading - a design pattern that load NgModules as needed. 
+- lazy Loading helps keep initial bundle size smaller , which in turn decrease load times.
+- New with Angular 8 , loadChildren excepts a function that uses the dynamic import syntax to import your lazy-loaded madule when it's needed.
+- with lazy loaded modules in Angular, it's easy to have features loaded only when the user navigates to their routes for the first time.
+- This can be a huge help for your app's performance and reducing the initial bundle size. Plus, it's pretty straightforward ti setup!
+- When the application grows in size, we should always modularize the application into individual 
+- Load the modules on-demand  
+- There are 2 steps to create a lazy loading feature module
+    - create feature Module
+    - Configure loadChildren in AppRouting
+- Feature Module is a Module specific to certain functionality
+- To load a feature module lazily we need to load it's children using loadChildren property in route configuration
+- Syntax to create the lazy loading is given below
+    - ng g module customers --route customer --module app.module
+- Example   
+    -   {path:'orders', loadChildren: () => import('./orders/orders.module').then(m => m.Ordermodule)}
+- CLI atomatically created lazy loaded module - It is created it's own routing file
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Angular Tutorial #40 - Route guards
+
+- Use a Route Guards to prevent users from navigating to parts of an app without authorization
+    - i.e if users is not logged in then user should not see /orders routes.
+    - /orders is protected or secure routes
+- Route Guards are used to secure the route paths 
+- in Most cases, the routes and screens are protected behind a good authentication system
+- The route guard resolves to true or false based on custom logic and functionality 
+- We can generate any number of guards based on our application requirements
+- Whenever we implement route guard, it will give you boolean value 
+- inject the guard in our module under providers
+- There are various types of route guards available 
+    - CanActivate - checks to see if a user can visit a route
+    - CanActivateChild - Checks to see if a user can visit a routes children 
+    - CanDeactivate - checks to see if user can exit a route 
+    - Resolve - performs route data retrieval before route activation 
+    - CanLoad - Checks to see if a user cna route to a module that lazy loaded
+- The route guard resolves to true or false based on custom logic and functionality
+- to generate the route guard we can make use of angular CLI
+    - ng generate guard <guard-name>
+- While generating - It will ask us four interfaces that we want to implement 
+    - we need to choose one
+- Example : 
+    - AdminHome Component 
+        - Admin Only 
+    - Admin Route guard
+        - which will check if the user is an Admin  
+            - if the user is admin  
+                - show the component
+            - else 
+                - take him to the main screen/route
+- Whenever implement a route guard - it will return boolean value 
+    - true  
+    - false
+- based on this boolean value, Angular router will decide if user should be accessing the route or not.
+
+- Example :
+    - AdminGuardGuard file
+        - @Injectable({
+                providedIn: 'root'
+                })
+                export class AdminGuardGuard implements CanActivate {
+                canActivate(
+                    route: ActivatedRouteSnapshot,
+                    state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+
+                    // authentication and authorization code here.
+                    // Calling a user Service - pass user/pwd and make sure the user is correct
+
+
+
+                    return true;
+                }
+                
+                }
+    - Routes File's Route
+        - {path:'admin', component:AdminHomeComponent, canActivate: [AdminGuardGuard]}
+
+        

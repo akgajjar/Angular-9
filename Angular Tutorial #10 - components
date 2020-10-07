@@ -1,0 +1,30 @@
+Angular Tutorial #10 - components
+
+- Component is a Smaller Function which can be reused multiple times in the application.
+- smaller feature inside a bigger functionality.
+	- Authentication - Module
+		- login - component
+		- forgot-password - component
+		- register -component
+		- authenticate - component
+- Allows in easy maintainance and development.
+- Tree Hierarchy
+	- is made of components.
+		parent
+	Child1 Child2 Child3
+- plug and play the components wher we need 
+- tree Hierarchy is starts with AppComponent.
+- AppComponent is the single most important component
+	- is provided by default.
+	- in the index.html, we  can see the selector name <app-root>
+- Each component will have 3 important things
+	- selector
+	- templateUrl or template
+	- styleUrl
+- ng generate component <name> or ng g c <name> - to generate component.
+	- automatically the component will be updated and imported into the module 
+	- where you generate the Component is very very important.
+	- the parent module will be updated accordingly.
+- we can have components inside components (sub-Components).
+	- to call a sub component, we will use selector name and call the element.
+- we can include a component from other module into appModule or any module.

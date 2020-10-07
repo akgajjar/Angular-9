@@ -1,0 +1,22 @@
+Angular Tutorial #9 - Decorators 
+
+- TypeScript Feature used to passed meta Data.
+- This are functions which will returns functions.
+- Decorators are invoked at runtime.
+- Decorators allows us to invoke functions
+- All Decorators in Angular are represented with '@' Symbol.
+	- @module
+	- @Component
+	- @Injectable
+	- @Pipe
+- define class Decorators, Input Decorators etc.
+- These Decorators have Metadata.
+	- has specific metadata.
+	- some are mendatory and some are optional.
+
+* Types 
+
+- Class Decorators - @NgModule, @Component 
+- Property Decorators - @Input, @Output
+- Method Decorators - @HostListener
+- Parameter Decorators - @Inject

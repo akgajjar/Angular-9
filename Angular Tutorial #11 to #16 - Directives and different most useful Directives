@@ -1,0 +1,153 @@
+Angular Tutorial #11 - Directives
+
+* Types 
+- Component Directives 
+	- Every Angular application must have at least 1 component.
+	- has it's own templates.
+	- Events attached.
+- Structural Directives
+	- use with '*' symbol.
+	- Updates structures of the view.
+	- ngFor, ngIf and ngSwitch etc.
+	- ngFor 
+		- for loop in any other language - js, java.
+		- the idea is same.
+		- you iterate over a set of data and do some operations.
+	- ngIf
+		- we can do a conditional expression.
+		- if else -> you would have written in any other language.
+	- ngSwitch	
+		- switch case statements to evaluate some expression.
+			- true or false -> corresponds output.
+	- Example : 
+		<div *ngif = "showMsg"> showing this message from IF True Statement</diV>
+
+
+- Attribute Directives
+	- ngStyle, ngClass.
+- Genrate custom directives
+	- adding power and extending our application.
+	-ng generate directive <directive-name>
+
+------------------------------------------------------------------------------------------------------
+
+Angular Tutorial #12 - ngIf
+
+- is a built-in Structural directive that can add or remove elements.
+- add * symbol in ngIf in template.
+- Conditionally includes a template based on an expression.
+- resolves to true or false result of any given expression.
+- add or remove an element dynamicallly.
+- *ngIf Statement 
+	- Example code : <div *ngIf="condition"></div>
+- *ngIf with else statement
+	- template reference variables.
+		- always using ng-template directive.
+	- Example code :
+		<div *ngIf="showMsg; else showElseMsg">show message</div>
+		<ng-template #showElseMsg>show else message</ng-template>
+- ngIf with then and else statements
+	- template reference variable 
+		for both else and then condition.
+	- Example dode	
+		<div *ngIf="showMsg; then showThenMsg else showElseMsg"></div>
+		<ng-template #showThenMsg>show then message</ng-template>
+		<ng-template #showElseMsg>show else message</ng-template>
+
+------------------------------------------------------------------------------------------------------
+
+Angular Tutorial #13 - ngSwitch
+
+- is a built-in directive and starts with * symbol.
+- allows elements to be shown or hidden based on a condition.
+- unlike if statement - switch can take multiple value Parameter for condition check.
+- we can also define default action for the switch.
+- 3 important elements of ngSwithch
+	- ngSwitch
+	- ngSwitchCase
+	- ngSwitchDefault
+- Example  :
+	<div [ngSwitch] = "switch condition">
+		<div *ngSwitchCase = "match_Expression1"></div>
+		<div *ngSwitchCase = "match_Expression2"></div>
+		<div *ngSwitchCase = "match_Expression3"></div>
+		<div *ngSwitchCase = "match_Expression4"></div>
+		<div *ngSwitchCase = "match_Expression5"></div>
+		<div *ngSwitchDefault></div>
+	</div>
+
+------------------------------------------------------------------------------------------------------
+
+Angular Tutorial #14 - ngFor 
+
+- is used for modifing the DOM structure.
+- loop the elements to display the array data in template.
+- syantax : <div *ngFor="let ele of collections"></div>
+- provides local variables in array data
+	- Index - gets the current index of the current element in iteration.
+	- First - returns true if the current element is the first element in iteration.
+	- Last - returns true if the current element is the last element in iteration.
+	- Even - returns true if the current element is the even element in iteration.
+	- Odd - returns true if the current element is Odd element in iteration.
+- Example code  :
+	users = [
+		{id : 1 , name : 'aniket'},
+		{id : 2 , name : 'harsh'},
+		{id : 3 , name : 'yesha'},
+		{id : 4 , name : 'honey'},
+	]
+
+	<table>
+	<tr>
+		<th> Index</th>
+		<th>user Id</th>
+		<th>User name</th>
+		<th>first</th>
+		<th>last</th>
+		<th>Odd</th>
+		<th>Even</th>
+	</tr>
+		<tr *ngFor = "let user of users; index as i;first as f; last as l; even as e; odd as o;">
+			<td>{{i}}</td>
+			<td>{{user.id}}</td>
+			<td>{{user.name}}</td>
+			<td>{{f}}</td>
+			<td>{{l}}</td>
+			<td>{{o}}</td>
+			<td>{{e}}</td>
+		</tr>
+	</table>
+
+------------------------------------------------------------------------------------------------------
+
+Angular Tutorial #15 - ngStyle
+
+- The ngStyle directive lets you set a given DOM elements style properties.
+- we can pass dynamic values.
+- Example : <div [ngStyle]="{'background-color':'value', 'color':'red'}">Example1</div>
+- dynamic value {'background-color':colorVal} when colorVal is blue
+
+------------------------------------------------------------------------------------------------------
+
+Angular Tutorial #16 - ngClass
+
+- The ngClass directives lets us set a class name for the element.
+- we can pass dynamic values via variables.
+    - ngClass with string.
+    - ngClass with object.
+    - ngClass with array.
+    - ngClass with Component method.
+- Common mistakes
+    - case sensitive of ngClass.
+    - we have to put class name in single quotes.
+- Examples :
+    - <div [ngClass]="'one'">using ngClass with String Example</div>
+    - <div [ngClass]="{'one':true,'two':false}">with multiple class names</div>
+    - simple using static class name    
+        - <div [ngClass] = "'one'"></div> //class one .one{color : red}
+    -dynamic Class name 
+        - <div [ngClass] = "className"></div> //class one .one{color : red} and className is one
+    - array classes - to pass more than 1 class - we use array 
+        - <div [ngClass]="[className1,className2]"></div>
+    - ngClass with expression - evaluate expression and set true or false. which class to apply we can set true or false.
+        - <div [ngClass]="{className1:true, className2:false}"><div>

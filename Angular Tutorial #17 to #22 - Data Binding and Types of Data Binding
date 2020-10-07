@@ -1,0 +1,90 @@
+Angular Tutorial #17 - Data Binding
+
+- means to bind the data from view(template) to controller(component class) and vice versa.
+- Data Binding as the name suggest - interacting with data.
+- Defines how data flows and how tha data gets updated based on business logic.
+ 
+* Types 
+- one way Data Binding
+    - Component to view 
+        - interpolation
+        - property Binding
+        - Style Binding 
+        - Attribute Binding
+    - view to Component 
+        - Event binding 
+- Two Way Data Binding
+    - Data Flows from view to component and back to component to view
+
+--------------------------------------------------------------------------------------------------------
+
+Angular Tutorial #18 - Interpolation
+
+- Is a technique that allows the user to bind data from component to view(template)
+- The data flow is only one-way i.e from component to view 
+- can be used for integers, strings, objects, arrays and more
+- syntax for defining Interpolation is double curly braces
+    - {{variable_name}}
+- Example 
+    - {{single_variable}}
+    - {{object.value}}
+    - {{array[index]}}
+
+--------------------------------------------------------------------------------------------------------
+
+Angular Tutorial #19 - Property Binding
+
+- Is a technique that allows the user to bind properties of elements from component to view(template)
+- The data flow is only one-way i.e from component to view
+- can be used for all properties like innerHTML, src etc.
+- Syntax for defining Property Binding is square brackets.
+    - [Property]="'expression'">
+- Example code :
+    - colorVal = 'red';
+        - <div [ngStyle]="{color:colorVal}"></div>
+    - subTitle = 'Welcome to my website';    
+        - <p [innerHTML]='subTitle'></p>
+
+
+--------------------------------------------------------------------------------------------------------
+
+Angular Tutorial #20 - Attribute Binding
+
+- Is a technique that allows the user to bind attributes of elements from component to view(template)
+- The data flow is one-way i.e from component to view
+- can be used for any existing properties or custom attributes
+- syntax for defining attribute Binding is 
+    - [attr.attribute_name]="'expression'"
+- Example Code: 
+    - <a [href]="hrefVal" [attr.updatedLink]='updatedLuink'>Google</a>
+        updatedLink = 'http://www.oracle.com';
+        hrefVal = 'http://www.google.com';
+
+
+--------------------------------------------------------------------------------------------------------
+
+Angular Tutorial #21 - Event Binding
+
+- Is a technique that allows the user to bind Events of elements from view/template to component
+- The data flow is one-way i.e from view to component
+- can be used for all available events
+-Syntax for defining Event Binding
+    - <Element (event_name)="function()">Message</Element>
+-Example code : 
+    - <button (click)="function()">Example</button>
+    - function(){ alert('Hello'); }
+  
+--------------------------------------------------------------------------------------------------------
+
+Angular Tutorial #22 - Two way data binding
+
+- Is a technique that allows the user to bind data of elements from view/template to component and vice versa.
+- The data flow is only both ways i.e from view to component and component to view
+- Two way data binding is a combination of property binding and event binding
+- We bind data using ngModel - Square backets of property binding with parantheses of event binding in a single notation
+- Syntax for defining two way data binding is 
+    - <input [(ngModel)]='data'>
+- Example Code : 
+    - <input [(ngModel)]="first_name" type="text"> //  we define first_name variable in component's ts file.
+      First name is {{first_name}}    
+

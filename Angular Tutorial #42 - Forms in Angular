@@ -1,0 +1,38 @@
+Angular Tutorial #42 - Forms in Angular
+
+- Types of Forms 
+    - Template Driven / Model driven forms 
+    - Reactive Forms ( also known as Dynamic Forms)
+- Angular framework support for forms 
+    - Two way Binding 
+    - Change tracking
+    - Validations
+    - Error Handling 
+    - Unit Testing
+- Template Driven Forms
+    - Easy to use 
+    - Template driven forms are simple and dorward 
+    - All the validations , form elements are all defined in the template file
+    - we will need to import FormsModule in app module to work with template driven Forms
+- Reactive Forms / Dynamic Forms 
+    - All the forms elements, user interactions and validations are handled in the component class 
+    - we will make use of Angular's built in formGroup amd formControl 
+    - Can control better data Binding
+    - Exclusive define custom regular expression patterns of error Handling
+    - We will need to import ReactiveFormsModule in our app module
+    - very flexible and allow users to define , develop complex requirements of forms 
+    - More logic in the component class and less in HTML mark up itself
+
+* Which is better
+- Template driven forms 
+    - If your application forms are simple straight forward 
+    - Fixed static form fields and elements 
+    - No complex validations
+- Reactive Forms
+    - If your application forms are complex
+    - Uses multiple dynamic components
+    - Advanced validations requirements 
+    - Dependent form elements 
+    - Dynamic form generation based on user preferences 
+
+

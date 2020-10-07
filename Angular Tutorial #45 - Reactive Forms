@@ -1,0 +1,246 @@
+Angular Tutorial #45 - Reactive Forms
+
+- All the form elements, user interactions and validations are handled in the component class 
+- We will make use of Angular's Built in formGroup and formControl
+- Using Reactive Forms we can control better data binding
+- Exclusive define custom regular expression patterns of error handling
+- We will need to import ReactiveFormsModule in our app module 
+- Very flexible and allows users to define, develop , develop compolex requirements of forms 
+- More logic in the component class and less in HTML markup itself
+- Angular maintains state information of Forms at all times 
+    - ng-touched
+    - ng-untouched
+    - ng-dirty
+    - ng-pristine
+    - ng-valid
+    - ng-invalid
+
+- Steps to implement Reactive forms 
+    - Step #1 - import and Add in the ReactiveFormsModule in the app.module.ts 
+        - for template driven forms - ReactiveFormsModule need to be imported 
+        - If we do NOT import this - we will get error
+        - Add the Module into the arraylist of imports
+    - Step #2 - create the form in app.component.html 
+        - formGroup
+            - We need to use the directive formGroup for the entire form and give it a name 
+        - formControlName 
+            - Every form field should have a "formControlName" attribute 
+    
+        - <form [formGroup]="registerForm" (ngSubmit)="postData()">
+            <input type="text" formControlName="fname">
+            <input type="text" formControlName="lname">
+            <input type="text" formControlName="email">
+            <input type="submit" value="Post Data" [disabled]="!registerForm.valid">
+          </form>
+    - Step #3 - in the component class - import the required Modules 
+        - import {component, OnInit} from '@angular/core';
+        - import {FormBuilder, formGroup, formControl, ngForm, Validators} from '@angular/forms';
+    - Step #4 - inject the FormBuilder in the Constructor 
+        - constructor(private formBuilder: FormBuilder)
+    - Step #5 - Create the form instance 
+        - this.registerForm = formBuilder.group({
+            fname : new formControl(),
+            lname : new formControl(),
+        })
+
+
+- Example Code :
+    
+    - ng g component checkout 
+    - Add routing path
+    -   
+        <form [formGroup]="checkOut" (ngSubmit)="postData()">
+            <table>
+                <tr>
+                    <td>
+                        Email Id 
+                    </td>
+                    <td>
+                        <input type="text" name="emailId" formControlName="emailAddr'>
+                    </td>
+                </tr>
+                <tr>    
+                    <tr>
+                        password
+                    </tr>
+                    <td>
+                        <input type="text" name="quantity" formControlName="quantity">
+                    </td>
+                </tr>
+                <tr>    
+                    <tr>
+                    </tr>
+                    <td>
+                        <input type="checkbox" name="terms" formControlName="terms"> Agree to terms
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <button type="submit" [disabled]="!checkOut.valid">
+                            submit
+                        </button>
+                    </td>
+                </tr>
+        </form>
+
+        - Component class 
+            - 
+                checkoutForm : FormGroup // give same name as formGroup name given in Html
+                
+                constructor(private formBuilder: FormBuilder){
+                    this.checkOut = formBuilder.group({ // Build Forms using Form Builder
+                    emailAddr : new formControl(), // In the Form Builder - we  creating a group of Form elements
+                    quantity : new formControl(), // these should be exactly same as your form 
+                    terms : new formControl() // we can also have it dynamic 
+                    })
+                }
+
+                postData(){
+                    console.log(this.checkoutForm); // FormGroup Object
+                    console.log(this.checkoutForm.value); // Entire Form Values
+                    console.log(this.checkoutForm.value.emailAddr);// Specific Control value
+                }
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Angular Tutorial #46 - Validations in Reactive Forms
+
+- Validators are extemely important and integral part of any Forms in apps
+- In orders to prevent unwamted data or junk data we must validate the form fields and its data entered by users 
+- Angular provides common validators like minLength, maxLength, required etc.
+- Ways to Handle Validations in the Template Driven Forms 
+    - Highlighting Errors 
+        - input.ng-invalid.ng-untouched
+            {
+                border:1px solid red;
+            }
+    - Diabling the Submit button
+        - by adding attribute [disabled]="!formName.valid"
+            - this.registerForm({
+                    fname : ['',Validators.required],
+                    lname: ['',[
+                            Validators.minLength(5),
+                            Validatiors.maxLength(10),
+                            Validators.required,
+                            Validatiors.pattern('^[a-zA-Z+$')
+                        ] 
+                   ],
+                   email : ['',[Validators.required, Validators.email]]
+              });
+    - Custom Field Lavel Validations - Show hide Messages 
+
+        <form [formGroup] ="registerForm" (ngSubmit)="postData()">
+            <input type="text" formControlName="fname">
+                <span *ngIf="registerForm.get('fname').touched && registerForm.get('fname').hasError('required')">Enter First Name</span>
+            
+            <input type "text" formControlName="email">
+                <span *ngIf="registerForm.get('email').touched && registerForm.get('email').hasError('required')">Enter Email Id </span>
+                <span *ngIf="registerForm.get('email').touched && registerForm.get('email').hasError('email')">Enter valid Email Id</span>
+            <input type="submit" [disabled]="!registerForm.valid">
+        </form>
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Angular Tutorial #47 - Form Group - Read Value
+
+- We can get the value of a form fields/control from tha form.
+- Syntax to read the value of entire form 
+    - this.formName.value
+- Syntax to read the value of individual form control
+    - this.formName.get('fieldName').value
+    - this.formName.value.fieldName
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Angular Tutorial #48 - Form Group - Read Value
+
+- Setting Values in the Form - setValue 
+    - We can SET the values of the entire form using the setValue()
+        - We need to set values for each and every field of the form 
+        - We cannot omit any field in the form 
+        - syntax :
+            - this.registerForm.setValue({
+                    fname:'ARC',
+                    lname:'Tutorials',
+                    email:'sridhar@gmail.com'
+                })
+- Setting individual Form Field Controls - patchValue 
+    - We can SET individual fields using patchValue 
+        - Syntax :
+            - this.registerForm.patchValue({
+                    fname:'ARC',
+                    email:'sridhar@gmail.com'
+                });
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Angular Tutorial #49 - Reactive Forms - Reset Forms
+
+- It important that we reset our form to avoid any duplicate values getting added 
+
+- Reset Form - reset()
+    - we can reset the entire form using reset() method 
+        - syntax :
+            - this.registerForm.reset()
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Angular Tutorial #50 - Reactive Forms - value Changes 
+
+- valueChanges is yet another important property of formControl, formGroup and formArray 
+- valueChanged returns an Observable 
+- we need to Subscribe to the Observable to read the value 
+- valueChanges is a property in AbstractControl 
+- valueChanges will emit an event every ti,e there is any change in the values of the control changes 
+
+- Approaches
+    - Approach #1 - for Form Controls
+        - When Subscribed to the Observable - we will get latest changed value 
+        - syntax : 
+            - this.formName.get('email').valueChanges.Subscribe(data => {
+                    console.log(data);
+                })
+    - Approach #2 - for Entire Form 
+        - When Subscribed to the observable - we will get the entire form but the values will be only for changed form control 
+        - syntax :
+            -  this.formName.valueChanges.Subscribe(data => {
+                    console.log(data);
+                })
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Angular Tutorial #50 - Reactive Forms - status Changes 
+
+- statusChanges is yet another important property of formControl, FormGroup, and formArray
+- statusChanges returns an Observable. We need to Subscribe to the observableto read the value .
+- statusChanges is a property in AbstractControl
+- statusChanges will emit an event every time there is any change in the validation status of control changes 
+
+- Approaches
+    - Approach #1 - for Form Controls
+        - When Subscribed to the Observable - we will get validation status of control 
+        - syntax : 
+            - this.formName.get('email').statusChanges.Subscribe(data => {
+                    console.log(data);
+                })
+    - Approach #2 - for Entire Form 
+        - When Subscribed to the observable - we will get validation status of entire form 
+        - syntax :
+            -  this.formName.statusChanges.Subscribe(data => {
+                    console.log(data);
+                })
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Angular Tutorial #50 - Reactive Forms - Form Array 
+
+- For complex forms , We will need Complex Forms 
+- Multiple Form Control - Group -> Form group 
+- Almost all modern applications will need us to work with form Arrays 
+- DOM interactions in Angular Reactive forms are implemented using form array 
+    - adding and removing elements is easily handled using FormArrays 
+- It is a class that tracks the value and validity state of array of FormControl, FormArray and FormGroup 
+- FormArray aggregates the values of the child FormControl into an Array 
+- The status of the FormArray is calculated by reducing the statuses of it's children.
+- If any one of controls is invalid , the entire array becomes invalid 
+

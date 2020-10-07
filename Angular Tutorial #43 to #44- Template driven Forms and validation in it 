@@ -1,0 +1,134 @@
+Angular Tutorial #43 - Template driven Forms
+
+- Easy to use 
+- Template driven forms are simple and straight forward 
+- All the validations, forms elements are all defined in the template file
+- Forms are tracked automatically 
+- Tracked form data traverses via various states (pristine etc)
+- Uses Two-Way data binding techniques to bind data 
+- Most of the code resides in template file 
+- Validations are mostly the default HTML5 validations 
+- Minimal component code as most of the code is in template file 
+- Unit Testing will be a challenge 
+
+* How to use Template Driven Forms 
+    - we will need to import FormsMofule in app module to work with template driven forms 
+    - Step #1 - Import and add in FormsModule in the app.module.ts 
+        - for template driven forms - FormsModule need to be imported
+        - If we do Not import this - we will get error when doing two way data binding
+        - Add the module into array list of imports
+        - import {FormsModule} from '@angular/forms';
+    - Step #2 - create the form in app.component.html 
+        - ngForm
+            - Form name as template variable using '#' for e.g #loginForm
+        - ngModel
+            - Every form field should have a 'name' attribute and ngModel attached to it 
+
+- Example : 
+
+    - ng g component signin
+    -
+        <form #signInForm="ngForm" (ngSubmit)="loginUser(signInForm);">
+            <table>
+                <tr>
+                    <td>
+                        Email Id 
+                    </td>
+                    <td>
+                        <input type="text" name="emailId" ngModel>
+                    </td>
+                </tr>
+                <tr>    
+                    <tr>
+                        password
+                    </tr>
+                    <td>
+                        <input type="password" name="password" ngModel>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <button type="submit">
+                            submit
+                        </button>
+                    </td>
+                </tr>
+        </form>
+
+    - signInForm(signInForm : ngForm)
+        {
+            // signInForm.value =>  object which hold form values
+            // this section is for capturing value 
+            / we will see validation in next tutorial 
+            console.log(signInForm.value.emailId);
+            console.log(signInForm.value.password)
+        }
+
+----------------------------------------------------------------------------------------------------------------------------------
+
+Angular Tutorial #43 - Validation for Template driven Forms
+
+- Validations are extremely important and integral part of any Forms in apps 
+- In order to prevent unwanted data or junk data we must validate the form fields and it's entered by users
+- Angular provides common validators like minLength, maxLength, required etc.
+- Angular maintains state information of the Forms at all times 
+    - ng-touched
+    - ng-untouched
+    - ng-dirty
+    - ng-pristine
+    - ng-valid
+    - ng-invalid
+- Ways to handle Calidations in Template Driven Forms
+    - Highlighting the Errors
+        - inout.ng-invalid.ng-touched{
+            border:1px solid red;
+        }
+    - Disabling submit button
+        - By adding attribute [disabled]="!formName.valid">
+    - Custom Field Level validation - Show hide Errors Messages
+        - <span *ngIf="firstname.touched && !firstname.valid">Please Enter Email</span> 
+- Example : 
+
+    - ng g component signin
+    -
+        <form #signInForm="ngForm" (ngSubmit)="loginUser(signInForm);">
+            <table>
+                <tr>
+                    <td>
+                        Email Id 
+                    </td>
+                    <td>
+                        <input type="text" name="emailId" ngModel required email<!--Valid email validations--> #emailId="ngModel">
+                        <span *ngIf="emailId.touched && !emailId.valid">Please Enter Email</span> 
+                    </td>
+                </tr>
+                <tr>    
+                    <tr>
+                        password
+                    </tr>
+                    <td>
+                        <input type="password" name="password" ngModel required #password="ngModel">
+                        <span *ngIf="password.touched && !password.valid">Please Enter Valid Password</span> 
+                        
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <button type="submit" [disabled]="!signInForm.valid">
+                            submit
+                        </button>
+                    </td>
+                </tr>
+        </form>
+    - css class
+        inout.ng-invalid.ng-touched{
+            border:1px solid red;
+        }
+    - signInForm(signInForm : ngForm)
+        {
+            // signInForm.value =>  object which hold form values
+            // this section is for capturing value 
+            / we will see validation in next tutorial 
+            console.log(signInForm.value.emailId);
+            console.log(signInForm.value.password)
+        }

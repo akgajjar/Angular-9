@@ -1,0 +1,44 @@
+Angular Tutorial #9 - Angular Default Folder Structure and Boot Process 
+
+1. E2E
+	- end to end test scripts will be residing
+	- Protractor framework is used to run end to end test scripts
+	- app.po.ts -> Protractor file which will have "po" file
+	- app.e2e.spec.ts file
+		- e2e it tells that this script is end to end functional test scripts
+		- spec - whenever you added spec that means it is a test script
+2. node_modules
+	- this is the folder where all modules and libraries reside
+	- add/remove modules/packages
+	- we will not touch this folder for development purpose
+3. src
+	- This is the main workarea / app code resides in this folder
+	- This is the basic structure
+	- app folder is the place where you will see components, modules, services, directives, pipes, etc...
+	- app.component.ts [where you see component it means that file corresponds to a component]
+	- app.module.ts [it means that this is a module]
+	- app.service.ts [it means these are service files]
+	- app.component.spec.ts [It means these are UNIT test scripts]
+	- assets - where you can keep you styles, images, Icons
+	- environments 
+		- here we will configure variables or pipelines for dev, test, stage and prod
+	- polyfills - if the user browser is outdated one - polyfills will add ES6 functionality for backward compatibility
+	- styles.css - Keep Global Stylesheet, Don't make it too heavy, use limited typography, fonts, generic classes. If it is specific to the application then keep 			them in app.component.css
+4. angular.json - This is the file for all the configuration of our angular project
+5. karma.conf.js - karma runner for running our unit test scripts, configure our test scripts
+6. tsconfig.json - Build and compilation related to our angular application
+7. tslint.json - linting and code standards
+
+Boot Process:
+1. main.ts 
+	- Booting the angular application
+	- This is the first file that angular will check to load how to start an Angular application
+	- We need AT LEAST one module to be present in out main.ts, default one is AppModule
+	- bootstrapModule is the one which loads and starts the application
+	- Above method is - NOT RELATED TO BOOTSTRAP FRAMEWORK AT ALL
+	- Yes, we can change default AppModule to our own customer module
+	
+2. test.ts
+	- test script for booting process
+	- All the code written in main.ts is tested here in this fi
+	
